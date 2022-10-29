@@ -1,0 +1,22 @@
+{
+  "name": "pitchmonitor",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "yarn run build --base=/pitchmonitor/",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "gh-pages": "^4.0.0",
+    "prettier": "^2.7.1",
+    "vite": "^3.0.0"
+  },
+  "dependencies": {
+    "eslint-plugin-prettier": "^4.2.1",
+    "pitchfinder": "^2.3.2"
+  }
+}
