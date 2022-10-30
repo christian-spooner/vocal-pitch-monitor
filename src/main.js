@@ -13,11 +13,10 @@ document.querySelector('#app').innerHTML = `
 `
 
 const canvasContext = document.querySelector('canvas').getContext('2d')
-// make canvas responsive
 canvasContext.canvas.width = window.innerWidth
 
 const paintNotesLines = appContext => {
-  canvasContext.fillStyle = 'blue'
+  canvasContext.fillStyle = 'grey'
   canvasContext.font = '10px'
 
   noteFrequencyTable.forEach(noteFrequencyTuple => {
@@ -35,7 +34,7 @@ const paintNotesLines = appContext => {
 }
 
 const paintMonitorBoard = appContext => {
-  canvasContext.fillStyle = 'white'
+  canvasContext.fillStyle = 'black'
   canvasContext.fillRect(
     0,
     0,
