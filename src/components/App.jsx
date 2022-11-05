@@ -1,81 +1,87 @@
 import './App.css';
 import React, { useState } from 'react';
 
-let monitorInterval;
+function getAutocorrolatedPitch(audioCtx, analyserNode, audioData) {
+    let maximaCount = 0;
+    let localMaxima = new Array(10);
+    let corrolatedSignal = new Float32Array(analyserNode.fftSize);
 
-function runMonitor() {
-    let audioCtx = new AudioContext();
+    for (let l = 0; l < analyserNode.fftSize; l++) {
+        corrolatedSignal[l] = 0;
+        for (let i = 0; i < analyserNode.fftSize - l; i++) {
+            corrolatedSignal[l] += audioData[i] * audioData[i + l];
+        }
+        if (l > 1) {
+            if (
+                corrolatedSignal[l - 2] - corrolatedSignal[l - 1] < 0 &&
+                corrolatedSignal[l - 1] - corrolatedSignal[l] > 0
+            ) {
+                localMaxima[maximaCount] = l - 1;
+                maximaCount++;
+                if (maximaCount >= localMaxima.length) break;
+            }
+        }
+    }
+
+    let maximaMean = localMaxima[0];
+
+    for (let i = 1; i < maximaCount; i++)
+        maximaMean += localMaxima[i] - localMaxima[i - 1];
+
+    maximaMean /= maximaCount;
+
+    let pitch = audioCtx.sampleRate / maximaMean;
+    console.log("Pitch: " + pitch);
+    return pitch;
+}
+
+function getPitch(audioCtx) {
+    audioCtx.resume();
+    console.log("Getting pitch...");
     let microphoneStream = null;
     let analyserNode = audioCtx.createAnalyser();
     let audioData = new Float32Array(analyserNode.fftSize);
-    let corrolatedSignal = new Float32Array(analyserNode.fftSize);
-    let localMaxima = new Array(10);
+    
+    navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+            microphoneStream = audioCtx.createMediaStreamSource(stream);
+            microphoneStream.connect(analyserNode);
 
-    function getAutocorrolatedPitch() {
-        let maximaCount = 0;
-
-        for (let l = 0; l < analyserNode.fftSize; l++) {
-            corrolatedSignal[l] = 0;
-            for (let i = 0; i < analyserNode.fftSize - l; i++) {
-                corrolatedSignal[l] += audioData[i] * audioData[i + l];
-            }
-            if (l > 1) {
-                if (
-                    corrolatedSignal[l - 2] - corrolatedSignal[l - 1] < 0 &&
-                    corrolatedSignal[l - 1] - corrolatedSignal[l] > 0
-                ) {
-                    localMaxima[maximaCount] = l - 1;
-                    maximaCount++;
-                    if (maximaCount >= localMaxima.length) break;
-                }
-            }
-        }
-
-        let maximaMean = localMaxima[0];
-
-        for (let i = 1; i < maximaCount; i++)
-            maximaMean += localMaxima[i] - localMaxima[i - 1];
-
-        maximaMean /= maximaCount;
-
-        return audioCtx.sampleRate / maximaMean;
-    }
-
-    function getPitch() {
-        navigator.mediaDevices
-            .getUserMedia({ audio: true })
-            .then((stream) => {
-                microphoneStream = audioCtx.createMediaStreamSource(stream);
-                microphoneStream.connect(analyserNode);
-
-                audioData = new Float32Array(analyserNode.fftSize);
-                corrolatedSignal = new Float32Array(analyserNode.fftSize);
-                analyserNode.getFloatTimeDomainData(audioData);
-                return getAutocorrolatedPitch();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
-    return getPitch();
+            audioData = new Float32Array(analyserNode.fftSize);
+            analyserNode.getFloatTimeDomainData(audioData);
+            return getAutocorrolatedPitch(audioCtx, analyserNode, audioData);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
 
 function App() {
     let [recording, setRecording] = useState('Start');
     let [frequency, setFrequency] = useState(0);
+    let audioCtx = new AudioContext();
+    var intervalId;
+
+    function runMonitor() 
+        {
+            setFrequency(getPitch(audioCtx));
+        }    
 
     function recordHandler() {
-        if (recording == 'Stop') {
-            clearInterval(monitorInterval);
-            monitorInterval = null;
-            setRecording('Start');
-        } else {
+        if (recording == 'Start') 
+        {
             setRecording('Stop');
-            if (!monitorInterval) 
+            if (intervalId) 
             {
-                monitorInterval = setInterval(runMonitor, 1000);
+                clearInterval(intervalId);
             }
+            intervalId = setInterval(runMonitor, 1000);
+        } else 
+        {
+            clearInterval(intervalId);
+            console.log('intervalId: ' + intervalId);
+            setRecording('Start');   
         }
         return;
     }
