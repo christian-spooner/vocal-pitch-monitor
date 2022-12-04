@@ -1,107 +1,44 @@
 import './App.css';
 import React, { useState } from 'react';
 
-function getAutocorrolatedPitch(audioCtx, analyserNode, audioData) {
-    let maximaCount = 0;
-    let localMaxima = new Array(10);
-    let corrolatedSignal = new Float32Array(analyserNode.fftSize);
-
-    for (let l = 0; l < analyserNode.fftSize; l++) {
-        corrolatedSignal[l] = 0;
-        for (let i = 0; i < analyserNode.fftSize - l; i++) {
-            corrolatedSignal[l] += audioData[i] * audioData[i + l];
-        }
-        if (l > 1) {
-            if (
-                corrolatedSignal[l - 2] - corrolatedSignal[l - 1] < 0 &&
-                corrolatedSignal[l - 1] - corrolatedSignal[l] > 0
-            ) {
-                localMaxima[maximaCount] = l - 1;
-                maximaCount++;
-                if (maximaCount >= localMaxima.length) break;
-            }
-        }
-    }
-
-    let maximaMean = localMaxima[0];
-
-    for (let i = 1; i < maximaCount; i++)
-        maximaMean += localMaxima[i] - localMaxima[i - 1];
-
-    maximaMean /= maximaCount;
-
-    let pitch = audioCtx.sampleRate / maximaMean;
-    console.log("Pitch: " + pitch);
-    return pitch;
-}
-
-function getPitch(audioCtx) {
-    audioCtx.resume();
-    console.log("Getting pitch...");
-    let microphoneStream = null;
-    let analyserNode = audioCtx.createAnalyser();
-    let audioData = new Float32Array(analyserNode.fftSize);
-    
-    navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-            microphoneStream = audioCtx.createMediaStreamSource(stream);
-            microphoneStream.connect(analyserNode);
-
-            audioData = new Float32Array(analyserNode.fftSize);
-            analyserNode.getFloatTimeDomainData(audioData);
-            return getAutocorrolatedPitch(audioCtx, analyserNode, audioData);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
-
 function App() {
-    let [recording, setRecording] = useState('Start');
-    let [frequency, setFrequency] = useState(0);
-    let audioCtx = new AudioContext();
-    var intervalId;
-
-    function runMonitor() 
-        {
-            setFrequency(getPitch(audioCtx));
-        }    
-
-    function recordHandler() {
-        if (recording == 'Start') 
-        {
-            setRecording('Stop');
-            if (intervalId) 
-            {
-                clearInterval(intervalId);
+    let [start, useStart] = useState("start")
+    function startRecording() {
+        if (start == "start") {
+            useStart("stop")
+            var source;
+            var audioContext = new window.AudioContext();
+            var analyser = audioContext.createAnalyser();
+        
+            analyser.minDecibels = -100;
+            analyser.maxDecibels = -10;
+            analyser.smoothingTimeConstant = 0.85;
+        
+            if (!navigator?.mediaDevices?.getUserMedia) {
+                alert('Sorry, getUserMedia is required for the app.')
+            } else {
+                var constraints = {audio: true};
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .then(
+                        function(stream) {
+                            // Initialize the SourceNode
+                            source = audioContext.createMediaStreamSource(stream);
+                            // Connect the source node to the analyzer
+                            source.connect(analyser);
+                        }
+                    )
+                    .catch(function(err) {
+                        alert('Sorry, microphone permissions are required for the app. Feel free to read on without playing :)')
+                    });
             }
-            intervalId = setInterval(runMonitor, 1000);
-        } else 
-        {
-            clearInterval(intervalId);
-            console.log('intervalId: ' + intervalId);
-            setRecording('Start');   
+        } else {
+            useStart("start")
         }
-        return;
     }
-
-    let recordElement = (
-        <p>
-            <button id="record" onClick={recordHandler}>
-                {recording}
-            </button>
-        </p>
-    );
-    let frequencyElement = <div id="pitch">{frequency}</div>;
 
     return (
-        <div className="App">
-            <h1>Vocal Pitch Monitor</h1>
-            {recordElement}
-            {frequencyElement}
-        </div>
-    );
+        <button onClick={startRecording}>{start}</button>
+    )
 }
 
 export default App;
