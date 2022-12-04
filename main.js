@@ -1,6 +1,6 @@
 function init() {
     var source;
-    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    var audioContext = new window.AudioContext();
     var analyser = audioContext.createAnalyser();
 
     analyser.minDecibels = -100;
