@@ -48,8 +48,8 @@ function init() {
           return;
         }
 
-        smoothingThreshold = 99999;
-        smoothingCountThreshold = 0;
+        smoothingThreshold = 10;
+        smoothingCountThreshold = 5;
 
         function noteIsSimilarEnough() {
           // Check threshold for number, or just difference for notes.
@@ -107,7 +107,7 @@ function autoCorrelate(buffer, sampleRate) {
     var threshold = 0.2;
 
     // Walk up for r1
-    for (var i = 0; i < SIZE / 2; i++) {
+    for (let i = 0; i < SIZE / 2; i++) {
         if (Math.abs(buffer[i]) < threshold) {
         r1 = i;
         break;
@@ -115,7 +115,7 @@ function autoCorrelate(buffer, sampleRate) {
     }
 
     // Walk down for r2
-    for (var i = 1; i < SIZE / 2; i++) {
+    for (let i = 1; i < SIZE / 2; i++) {
         if (Math.abs(buffer[SIZE - i]) < threshold) {
         r2 = SIZE - i;
         break;
@@ -144,7 +144,7 @@ function autoCorrelate(buffer, sampleRate) {
     // Iterate from that index through the end and find the maximum sum
     var maxValue = -1;
     var maxIndex = -1;
-    for (var i = d; i < SIZE; i++) {
+    for (let i = d; i < SIZE; i++) {
         if (c[i] > maxValue) {
         maxValue = c[i];
         maxIndex = i;
