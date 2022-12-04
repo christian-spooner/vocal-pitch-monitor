@@ -86,11 +86,14 @@ function autoCorrelate(buffer, sampleRate) {
 
 function App() {
     let [freq, useFreq] = useState(0)
+    const canvas = <canvas 
+      id="canvas" width="600" height="600" style={{border: '2px solid red'}}></canvas>
 
     function record() {
       var source;
       var audioContext = new window.AudioContext();
       var analyser = audioContext.createAnalyser();
+      const ctx = canvas.getContext("2d");
     
       analyser.minDecibels = -100;
       analyser.maxDecibels = -10;
@@ -179,6 +182,7 @@ function App() {
         <div>
             <button onClick={record}>Record</button>
             <div>{freq}</div>
+            {canvas}
         </div>
     )
 }

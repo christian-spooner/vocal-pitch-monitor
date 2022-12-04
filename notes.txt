@@ -7,3 +7,4 @@ Freq bar chart
 Pitch detection algos
 Polyphony
 Midi player
+Refactoring
