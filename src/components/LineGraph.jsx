@@ -2,58 +2,73 @@ import React from 'react';
 import * as d3 from 'd3';
 
 const LineGraph = (props) => {
-  // Initialize variables to store data and dimensions of graph
-  const data = props.frequency;
-  const width = 600;
+  const { frequency } = props;
+
+  // Set the dimensions of the graph
+  const width = 400;
   const height = 400;
   const margin = { top: 20, right: 20, bottom: 30, left: 50 };
 
-  // Set range and domain of graph using d3's scaleLinear()
-  const x = d3
-    .scaleLinear()
-    .rangeRound([margin.left, width - margin.right])
-    .domain([0, data.length - 1]);
+  // Set the maximum frequency to be displayed on the y-axis
+  const maxFrequency = 800;
 
-  const y = d3
-    .scaleLinear()
-    .rangeRound([height - margin.bottom, margin.top])
-    .domain([0, d3.max(data)]);
+  // Set the x and y scales
+  const x = d3.scaleLinear().range([0, width]);
+  const y = d3.scaleLinear().range([height, 0]);
 
-  // Create line generator using d3's line() method
-  const line = d3
+  // Set the x and y axes
+  const xAxis = d3.axisBottom().scale(x);
+  const yAxis = d3.axisLeft().scale(y);
+
+  // Set the frequency line
+  const valueline = d3
     .line()
-    .x((d, i) => x(i))
-    .y(d => y(d));
+    .x((d) => x(d.time))
+    .y((d) => y(d.frequency));
 
-  // Create x and y axes using d3's axisBottom() and axisLeft() methods
-  const xAxis = d3.axisBottom(x);
-  const yAxis = d3.axisLeft(y);
+  // Set the frequency data
+  let data = [{ time: 0, frequency: frequency }];
 
-  // Draw line graph on selected element using data and line generator
-  d3.select('.line-graph')
-    .append('path')
-    .datum(data)
-    .attr('fill', 'none')
-    .attr('stroke', 'steelblue')
-    .attr('stroke-linejoin', 'round')
-    .attr('stroke-linecap', 'round')
-    .attr('stroke-width', 1.5)
-    .attr('d', line);
+  // Use the parent element's width and height when creating the SVG
+  const svg = d3.select(d3.select(".pitch-monitor-graph").node().parentNode).append("svg");
 
-  // Append x and y axes to graph
-  d3.select('.line-graph')
-    .append('g')
-    .attr('transform', `translate(0, ${height - margin.bottom})`)
+  // Set the dimensions of the SVG
+  svg
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  // Scale the range of the data
+  x.domain([0, 1]);
+  y.domain([0, maxFrequency]);
+
+  // Add the valueline path.
+  svg
+    .append("path")
+    .data([data])
+    .attr("class", "line")
+    .attr("d", valueline);
+
+  // Add the X Axis
+  svg
+    .append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
 
-  d3.select('.line-graph')
-    .append('g')
-    .attr('transform', `translate(${margin.left}, 0)`)
+  // Add the Y Axis
+  svg
+    .append("g")
+    .attr("class", "y axis")
     .call(yAxis);
 
   return (
-    <svg className="line-graph" width={width} height={height} />
+    <div className="pitch-monitor-graph">
+      {svg}
+    </div>
   );
 };
+
 
 export default LineGraph;
