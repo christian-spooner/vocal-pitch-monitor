@@ -41,7 +41,7 @@ const Canvas = ({ frequency }) => {
 
         // Draw dot at calculated y-coordinate
         context.beginPath();
-        context.arc(canvas.width / 2, y, 5, 0, 2 * Math.PI);
+        context.arc(canvas.width - 100, y, 5, 0, 2 * Math.PI);
         context.fillStyle = 'red';
         context.fill();
     }, [frequency]);

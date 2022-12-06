@@ -1,6 +1,7 @@
 import './App.css';
 import Canvas from './Canvas';
 import React, { useState } from 'react';
+import LineGraph from './LineGraph';
 
 function autoCorrelate(buffer, sampleRate) {
   // Perform a quick root-mean-square to see if we have enough signal
@@ -179,7 +180,7 @@ function App() {
         <div>
             <button onClick={record}>Record</button>
             <div>{freq}</div>
-            <Canvas frequency={freq}/>
+            <LineGraph frequency={freq}/>
         </div>
     )
 }
