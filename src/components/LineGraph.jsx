@@ -1,12 +1,13 @@
-import React from 'react';
-import * as d3 from 'd3';
+import React, { useRef } from "react";
+import * as d3 from "d3";
 
 const LineGraph = (props) => {
   const { frequency } = props;
+  const svgRef = useRef();
 
   // Set the dimensions of the graph
   const width = 400;
-  const height = 400;
+  const height = 400; 
   const margin = { top: 20, right: 20, bottom: 30, left: 50 };
 
   // Set the maximum frequency to be displayed on the y-axis
@@ -29,13 +30,12 @@ const LineGraph = (props) => {
   // Set the frequency data
   let data = [{ time: 0, frequency: frequency }];
 
-  // Use the parent element's width and height when creating the SVG
-  const svg = d3.select(d3.select(".pitch-monitor-graph").node().parentNode).append("svg");
-
+  // Create the SVG element
+  const svg = d3.create("svg");
   // Set the dimensions of the SVG
   svg
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width)
+    .attr("height", height)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -65,10 +65,9 @@ const LineGraph = (props) => {
 
   return (
     <div className="pitch-monitor-graph">
-      {svg}
+      <svg ref={svgRef} />
     </div>
   );
 };
-
 
 export default LineGraph;
