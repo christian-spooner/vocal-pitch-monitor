@@ -1,4 +1,4 @@
-export default function autoCorrelate(buffer, sampleRate) {
+function autoCorrelate(buffer, sampleRate) {
     // Perform a quick root-mean-square to see if we have enough signal
     var SIZE = buffer.length;
     var sumOfSquares = 0;
@@ -80,3 +80,5 @@ export default function autoCorrelate(buffer, sampleRate) {
   
     return sampleRate/T0;
 }
+
+export default autoCorrelate;

@@ -1,7 +1,9 @@
 TODO:
 Remove button, automatic context creation
+Y axis touch
 Freq bar chart
 Pitch detection algos
 Polyphony
 Midi player
 Refactoring
+Testing
