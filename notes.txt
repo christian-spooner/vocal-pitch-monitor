@@ -2,6 +2,7 @@ TODO:
 Remove button, automatic context creation
 Y axis touch
 Freq bar chart
+Height slider
 Pitch detection algos
 Polyphony
 Midi player

@@ -9,11 +9,12 @@ const PitchGraph = ({ frequency }) => {
     const width = 1200 - margin.left - margin.right;
     const minFreq = noteFrequencyTable[0][1];
     const maxFreq = noteFrequencyTable[noteFrequencyTable.length - 1][1];
+    const minTime = -4;
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
     const [data, setData] = useState([]);
 
-    const xScale = d3.scaleLinear().domain([-4, 0]).range([0, width]);
+    const xScale = d3.scaleLinear().domain([minTime, 0]).range([0, width]);
 
     const yScale = d3.scaleLog().domain([minFreq, maxFreq]).range([height, 0]);
 
@@ -37,8 +38,8 @@ const PitchGraph = ({ frequency }) => {
             newData = [...newData, [0, frequency]];
         }
 
-        // Discard data with time values lower than -4
-        newData = newData.filter((d) => d[0] >= -4);
+        // Discard data with time values lower than minTime
+        newData = newData.filter((d) => d[0] >= minTime);
 
         setData(newData);
     };
