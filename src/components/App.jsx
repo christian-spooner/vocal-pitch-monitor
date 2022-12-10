@@ -166,11 +166,7 @@ function App() {
             return;
           }
     
-          if (typeof(valueToDisplay) == 'number') {
-            valueToDisplay = Math.round(valueToDisplay)
-          }
-    
-          useFreq(valueToDisplay);
+          useFreq(valueToDisplay.toFixed(4));
         }
     
         drawNote()
@@ -179,7 +175,7 @@ function App() {
 
     return (
         <div className="flex flex-col">
-            <div className="py-4 font-bold">{freq}</div>
+            <div className="py-4 font-bold">{Math.round(freq)}</div>
             <PitchGraph frequency={freq}/>
             <button className="py-12" onClick={record}><span className="hover:text-red-600">start</span></button>
         </div>

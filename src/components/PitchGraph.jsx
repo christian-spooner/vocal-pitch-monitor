@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 const PitchGraph = ({ frequency }) => {
+    console.log(frequency)
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
     const height = 800 - margin.top - margin.bottom;
     const width = 800 - margin.left - margin.right;
