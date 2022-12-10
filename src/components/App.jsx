@@ -178,10 +178,10 @@ function App() {
     }
 
     return (
-        <div className="p-2">
-            <button onClick={record}>start</button>
-            <div>{freq}</div>
+        <div className="flex flex-col">
+            <div className="py-4 font-bold">{freq}</div>
             <PitchGraph frequency={freq}/>
+            <button className="py-4" onClick={record}><span className="hover:text-red-600">start</span></button>
         </div>
     )
 }

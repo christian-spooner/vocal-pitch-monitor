@@ -66,9 +66,7 @@ const PitchGraph = ({ frequency }) => {
     }, [frequency]);
 
     return (
-        <div className="graph-container">
-            <svg className="graph"></svg>
-        </div>
+        <svg className="graph mx-auto"></svg>
     );
 }
 
