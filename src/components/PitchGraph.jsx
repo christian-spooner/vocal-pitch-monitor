@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import noteFrequencyTable from '../utils/noteFrequencyTable';
 import * as d3 from 'd3';
 
 const PitchGraph = ({ frequency }) => {
-    console.log(frequency)
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+    const margin = { top: 20, right: 40, bottom: 30, left: 40 };
     const height = 800 - margin.top - margin.bottom;
     const width = 800 - margin.left - margin.right;
+    const noteFrequencyMap = new Map(noteFrequencyTable);
+    const frequencies = Array.from(noteFrequencyMap.values());
     const [data, setData] = useState([]);
 
     const xScale = d3.scaleLinear()
         .domain([-4, 0])
         .range([0, width]);
 
-    const yScale = d3.scaleLinear()
-        .domain([0, 400])
+    const yScale = d3.scaleLog()
+        .domain([10, 1000])
         .range([height, 0]);
+    
+    /* const yScaleRight = d3.scaleLog()
+        .domain([d3.min(frequencies), d3.max(frequencies)])
+        .range([height, 0]); */
 
+    /* // create a custom formatter that maps each frequency to its corresponding pitch
+    const pitchFormatter = d3.format(freq => {
+        for (let i = 0; i < noteFrequencyTable.length; i++) {
+            if (noteFrequencyTable[i][1] === freq) {
+                return noteFrequencyTable[i][0];
+            }
+        }
+    }); */
+    
     const line = d3.line()
         .x((d) => xScale(d[0]))
         .y((d) => yScale(d[1]))
@@ -26,7 +41,7 @@ const PitchGraph = ({ frequency }) => {
         let newData = data.map((d) => [d[0] - 0.1, d[1]]);
         
         // Add current value of frequency prop to data
-        if (frequency < 400) {
+        if (frequency < 400 && frequency > 10) {
             newData = [...newData, [0, frequency]]
         } 
 
@@ -53,7 +68,23 @@ const PitchGraph = ({ frequency }) => {
 
         g.append('g')
             .attr('class', 'y axis')
-            .call(d3.axisLeft(yScale));
+            .call(
+                d3.axisLeft(yScale)
+                    .tickValues(frequencies)
+                    .tickFormat((d) => {
+                        for (let i = 0; i < noteFrequencyTable.length; i++) {
+                            if (noteFrequencyTable[i][1] === d) {
+                                return noteFrequencyTable[i][0];
+                            }
+                        }
+                    })
+            );
+
+        /* g.append('g')
+            .attr('class', 'y axis right')
+            .attr('transform', `translate(${width}, 0)`)
+            .call(d3.axisRight(yScaleRight)
+                .tickValues(frequencies)); */
 
         g.append('path')
             .datum(data)
