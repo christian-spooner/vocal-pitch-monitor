@@ -12,7 +12,7 @@ const PitchGraph = ({ frequency }) => {
         .range([0, width]);
 
     const yScale = d3.scaleLinear()
-        .domain([0, 800])
+        .domain([0, 400])
         .range([height, 0]);
 
     const line = d3.line()
@@ -34,6 +34,8 @@ const PitchGraph = ({ frequency }) => {
     }
 
     const drawGraph = () => {
+        d3.select('g').remove(); // remove previous graphs
+
         const svg = d3.select('.graph')
             .attr('height', height + margin.top + margin.bottom)
             .attr('width', width + margin.left + margin.right);
@@ -59,9 +61,7 @@ const PitchGraph = ({ frequency }) => {
 
     useEffect(() => {
         updateData();
-        console.log(data);
-        //drawGraph();
-        console.log(frequency)
+        drawGraph();
     }, [frequency]);
 
     return (
