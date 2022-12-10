@@ -1,7 +1,7 @@
 import './App.css';
-import Canvas from './Canvas';
+//import Canvas from './Canvas';
 import React, { useState } from 'react';
-import LineGraph from './LineGraph';
+//import LineGraph from './LineGraph';
 import PitchGraph from './PitchGraph';
 
 function autoCorrelate(buffer, sampleRate) {
@@ -178,8 +178,8 @@ function App() {
     }
 
     return (
-        <div>
-            <button onClick={record}>Record</button>
+        <div className="p-2">
+            <button onClick={record}>start</button>
             <div>{freq}</div>
             <PitchGraph frequency={freq}/>
         </div>
