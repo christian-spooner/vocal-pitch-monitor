@@ -5,8 +5,10 @@ import * as d3 from 'd3';
 // eslint-disable-next-line react/prop-types
 const PitchGraph = ({ frequency }) => {
     const margin = { top: 20, right: 50, bottom: 30, left: 50 };
-    const height = 3600 - margin.top - margin.bottom;
+    const height = 1200 - margin.top - margin.bottom;
     const width = 1200 - margin.left - margin.right;
+    const minFreq = noteFrequencyTable[0][1];
+    const maxFreq = noteFrequencyTable[noteFrequencyTable.length - 1][1];
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
     const [data, setData] = useState([]);
@@ -16,11 +18,11 @@ const PitchGraph = ({ frequency }) => {
         .range([0, width]);
 
     const yScale = d3.scaleLog()
-        .domain([32.70, 987.77])
+        .domain([minFreq, maxFreq])
         .range([height, 0]);
 
     const yScaleRight = d3.scaleLog()
-        .domain([32.70, 987.77])
+        .domain([minFreq, maxFreq])
         .range([height, 0]);
     
     const line = d3.line()
@@ -33,7 +35,7 @@ const PitchGraph = ({ frequency }) => {
         let newData = data.map((d) => [d[0] - 0.1, d[1]]);
         
         // Add current value of frequency prop to data
-        if (frequency < 400 && frequency > 10) {
+        if (frequency > minFreq && frequency < maxFreq) {
             newData = [...newData, [0, frequency]]
         } 
 
@@ -68,9 +70,11 @@ const PitchGraph = ({ frequency }) => {
         g.append('g')
             .attr('class', 'x axis')
             .attr('transform', `translate(0, ${height})`)
-            .call(d3.axisBottom(xScale));
-
-            
+            .call(d3.axisBottom(xScale)
+                .tickSize(0)
+                .tickFormat('')
+            );
+        
         g.append('g')
             .attr('class', 'y axis')
             .call(
