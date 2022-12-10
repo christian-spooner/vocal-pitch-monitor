@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 const PitchGraph = ({ frequency }) => {
-    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
     const height = 800 - margin.top - margin.bottom;
     const width = 800 - margin.left - margin.right;
     const [data, setData] = useState([]);
@@ -25,7 +25,9 @@ const PitchGraph = ({ frequency }) => {
         let newData = data.map((d) => [d[0] - 0.1, d[1]]);
         
         // Add current value of frequency prop to data
-        newData = [...newData, [0, frequency]]
+        if (frequency < 400) {
+            newData = [...newData, [0, frequency]]
+        } 
 
         // Discard data with time values lower than -4
         newData = newData.filter((d) => d[0] >= -4);
