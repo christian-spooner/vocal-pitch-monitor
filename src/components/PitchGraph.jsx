@@ -52,6 +52,18 @@ const PitchGraph = ({ frequency }) => {
         const g = svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+        // add horizontal lines across the chart that alternate in opacity for each tick of the y-axis
+        g.selectAll('.horizontal-lines')
+            .data(frequencies)
+            .enter()
+            .append('line')
+            .attr('x1', 0)
+            .attr('x2', width)
+            .attr('y1', frequency => yScaleRight(frequency))
+            .attr('y2', frequency => yScaleRight(frequency))
+            .style('stroke', '#ccc')
+            .style('opacity', (frequency, i) => i % 2 === 0 ? 0.2 : 0.6);
+
         g.append('g')
             .attr('class', 'x axis')
             .attr('transform', `translate(0, ${height})`)

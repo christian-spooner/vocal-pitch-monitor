@@ -1,8 +1,5 @@
 TODO:
 Remove button, automatic context creation
-Canvas intro
-Point against notes/freq table
-Point trail
 Freq bar chart
 Pitch detection algos
 Polyphony
