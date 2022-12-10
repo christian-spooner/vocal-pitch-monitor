@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 const PitchGraph = ({ frequency }) => {
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
-    const height = 400 - margin.top - margin.bottom;
+    const height = 800 - margin.top - margin.bottom;
     const width = 800 - margin.left - margin.right;
-
-    let data = [];
+    const [data, setData] = useState([]);
 
     const xScale = d3.scaleLinear()
         .domain([-4, 0])
@@ -22,14 +21,16 @@ const PitchGraph = ({ frequency }) => {
         .curve(d3.curveMonotoneX);
 
     const updateData = () => {
+        // Increment time values by 1
+        let newData = data.map((d) => [d[0] - 0.1, d[1]]);
+        
         // Add current value of frequency prop to data
-        data.push([0, frequency]);
-
-        // Decrease time values by 0.1 seconds
-        data.forEach((d) => d[0] -= 0.1);
+        newData = [...newData, [0, frequency]]
 
         // Discard data with time values lower than -4
-        data = data.filter((d) => d[0] >= -4);
+        newData = newData.filter((d) => d[0] >= -4);
+        
+        setData(newData);
     }
 
     const drawGraph = () => {
@@ -58,9 +59,9 @@ const PitchGraph = ({ frequency }) => {
 
     useEffect(() => {
         updateData();
-        drawGraph();
+        console.log(data);
+        //drawGraph();
         console.log(frequency)
-        console.log(data)
     }, [frequency]);
 
     return (
