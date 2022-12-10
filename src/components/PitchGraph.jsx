@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import noteFrequencyTable from '../utils/noteFrequencyTable';
 import * as d3 from 'd3';
 
+// eslint-disable-next-line react/prop-types
 const PitchGraph = ({ frequency }) => {
     const margin = { top: 20, right: 50, bottom: 30, left: 50 };
     const height = 4800 - margin.top - margin.bottom;
-    const width = 800 - margin.left - margin.right;
+    const width = 1200 - margin.left - margin.right;
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
     const [data, setData] = useState([]);
