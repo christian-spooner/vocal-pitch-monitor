@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 // eslint-disable-next-line react/prop-types
 const PitchGraph = ({ frequency }) => {
     const margin = { top: 20, right: 50, bottom: 30, left: 50 };
-    const height = 4800 - margin.top - margin.bottom;
+    const height = 3600 - margin.top - margin.bottom;
     const width = 1200 - margin.left - margin.right;
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
@@ -16,11 +16,11 @@ const PitchGraph = ({ frequency }) => {
         .range([0, width]);
 
     const yScale = d3.scaleLog()
-        .domain([16.35, 987.77])
+        .domain([32.70, 987.77])
         .range([height, 0]);
 
     const yScaleRight = d3.scaleLog()
-        .domain([16.35, 987.77])
+        .domain([32.70, 987.77])
         .range([height, 0]);
     
     const line = d3.line()

@@ -91,9 +91,9 @@ function App() {
 
     return (
         <div className="flex flex-col">
-            <div className="py-4 font-bold">{Math.round(freq)}</div>
+            <button className="py-2" onClick={record}><span className="hover:text-red-600">START</span></button>
+            <div className="py-2 font-bold">{Math.round(freq)}</div>
             <PitchGraph frequency={freq}/>
-            <button className="py-12" onClick={record}><span className="hover:text-red-600">start</span></button>
         </div>
     )
 }
