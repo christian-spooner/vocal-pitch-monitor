@@ -3,8 +3,8 @@ import noteFrequencyTable from '../utils/noteFrequencyTable';
 import * as d3 from 'd3';
 
 const PitchGraph = ({ frequency }) => {
-    const margin = { top: 20, right: 40, bottom: 30, left: 40 };
-    const height = 800 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 50, bottom: 30, left: 50 };
+    const height = 4800 - margin.top - margin.bottom;
     const width = 800 - margin.left - margin.right;
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
@@ -15,21 +15,12 @@ const PitchGraph = ({ frequency }) => {
         .range([0, width]);
 
     const yScale = d3.scaleLog()
-        .domain([10, 1000])
+        .domain([16.35, 987.77])
         .range([height, 0]);
-    
-    /* const yScaleRight = d3.scaleLog()
-        .domain([d3.min(frequencies), d3.max(frequencies)])
-        .range([height, 0]); */
 
-    /* // create a custom formatter that maps each frequency to its corresponding pitch
-    const pitchFormatter = d3.format(freq => {
-        for (let i = 0; i < noteFrequencyTable.length; i++) {
-            if (noteFrequencyTable[i][1] === freq) {
-                return noteFrequencyTable[i][0];
-            }
-        }
-    }); */
+    const yScaleRight = d3.scaleLog()
+        .domain([16.35, 987.77])
+        .range([height, 0]);
     
     const line = d3.line()
         .x((d) => xScale(d[0]))
@@ -66,10 +57,26 @@ const PitchGraph = ({ frequency }) => {
             .attr('transform', `translate(0, ${height})`)
             .call(d3.axisBottom(xScale));
 
+            
         g.append('g')
             .attr('class', 'y axis')
             .call(
                 d3.axisLeft(yScale)
+                .tickValues(frequencies)
+                .tickFormat((d) => {
+                    for (let i = 0; i < noteFrequencyTable.length; i++) {
+                        if (noteFrequencyTable[i][1] === d) {
+                            return noteFrequencyTable[i][1];
+                        }
+                    }
+                })
+            );
+                
+        g.append('g')
+            .attr('class', 'y axis right')
+            .attr('transform', `translate(${width}, 0)`)
+            .call(
+                d3.axisRight(yScaleRight)
                     .tickValues(frequencies)
                     .tickFormat((d) => {
                         for (let i = 0; i < noteFrequencyTable.length; i++) {
@@ -79,13 +86,7 @@ const PitchGraph = ({ frequency }) => {
                         }
                     })
             );
-
-        /* g.append('g')
-            .attr('class', 'y axis right')
-            .attr('transform', `translate(${width}, 0)`)
-            .call(d3.axisRight(yScaleRight)
-                .tickValues(frequencies)); */
-
+                
         g.append('path')
             .datum(data)
             .attr('class', 'line')
