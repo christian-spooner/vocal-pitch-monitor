@@ -56,6 +56,7 @@ const PitchGraph = ({ frequency }) => {
             .datum(data)
             .attr('class', 'line')
             .attr('d', line)
+            .attr('fill', 'none')
             .attr('stroke', 'green');
     }
 
