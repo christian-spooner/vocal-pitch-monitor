@@ -66,7 +66,14 @@ function Spectrum({ analyser }) {
         }
     }, [analyser]);
 
-    return <canvas ref={canvasRef} width={WIDTH} height={HEIGHT} />;
+    return (
+        <canvas
+            ref={canvasRef}
+            width={WIDTH}
+            height={HEIGHT}
+            className="mx-[64px]"
+        />
+    );
 }
 
 export default Spectrum;

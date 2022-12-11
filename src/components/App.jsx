@@ -113,7 +113,7 @@ function App() {
 
     return (
         <div className="flex flex-col">
-            <div className="flex flex-col">
+            <div className="flex flex-col pb-2">
                 <button className="py-1" onClick={record}>
                     <span className="hover:text-red-600">start</span>
                 </button>
