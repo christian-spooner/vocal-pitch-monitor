@@ -1,10 +1,11 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PitchGraph from './PitchGraph';
 import autoCorrelate from '../utils/autoCorrelate';
 
 function App() {
     let [freq, useFreq] = useState(0);
+	const canvasRef = useRef(null);
 
     function record() {
         var source;
@@ -36,7 +37,18 @@ function App() {
                 });
         }
 
+		var canvas = canvasRef.current
+		var canvasContext = canvas.getContext("2d");
+		var WIDTH;
+		var HEIGHT;
+
         function visualize() {
+			WIDTH = canvas.width;
+			HEIGHT = canvas.height;
+
+			var drawVisual;
+			var drawNoteVisual;
+
             var previousValueToDisplay = 0;
             var smoothingCount = 0;
             var smoothingThreshold = 5;
@@ -92,6 +104,38 @@ function App() {
                 useFreq(valueToDisplay.toFixed(2));
             };
 
+			var drawFrequency = function() {
+				var bufferLengthAlt = analyser.frequencyBinCount;
+				var dataArrayAlt = new Uint8Array(bufferLengthAlt);
+		  
+				canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
+		  
+				var drawAlt = function() {
+				  drawVisual = requestAnimationFrame(drawAlt);
+		  
+				  analyser.getByteFrequencyData(dataArrayAlt);
+		  
+				  canvasContext.fillStyle = 'rgb(0, 0, 0)';
+				  canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+		  
+				  var barWidth = (WIDTH / bufferLengthAlt) * 2.5;
+				  var barHeight;
+				  var x = 0;
+		  
+				  for(var i = 0; i < bufferLengthAlt; i++) {
+					barHeight = dataArrayAlt[i];
+		  
+					canvasContext.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
+					canvasContext.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
+		  
+					x += barWidth + 1;
+				  }
+				};
+
+				drawAlt();
+			}
+			
+			drawFrequency();
             drawNote();
         }
     }
@@ -102,6 +146,11 @@ function App() {
                 <span className="hover:text-red-600">START</span>
             </button>
             <div className="py-1 font-bold">{freq}</div>
+			<canvas
+				ref={canvasRef}
+				width={640}
+				height={120}
+			/>
             <PitchGraph frequency={freq} />
         </div>
     );
