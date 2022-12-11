@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-        font-family: PerfectDos, monospace;
-    }
+	html {
+		font-family: PerfectDos, monospace;
+	}
 }
