@@ -4,6 +4,7 @@ Y axis touch
 Height slider
 Range selector
 BPM mode
+Investigate smoothing
 Colouring
 Pitch detection algos
 Frequency labels for Spectrum
