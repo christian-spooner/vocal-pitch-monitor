@@ -6,7 +6,7 @@ import autoCorrelate from '../utils/autoCorrelate';
 
 function App() {
     let [freq, useFreq] = useState(0);
-	let [analyser, useAnalyser] = useState(null);
+    let [analyser, useAnalyser] = useState(null);
 
     function record() {
         var source;
@@ -28,7 +28,7 @@ function App() {
                 .then(function (stream) {
                     source = audioContext.createMediaStreamSource(stream);
                     source.connect(analyser);
-					useAnalyser(analyser);
+                    useAnalyser(analyser);
                     visualize();
                 })
                 .catch(function (err) {
@@ -105,7 +105,7 @@ function App() {
                 <span className="hover:text-red-600">START</span>
             </button>
             <div className="py-1 font-bold">{freq}</div>
-			<WinampGraph analyser={analyser} />
+            <WinampGraph analyser={analyser} />
             <PitchGraph frequency={freq} />
         </div>
     );
