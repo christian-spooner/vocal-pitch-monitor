@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "d3": "^7.7.0",
-    "eslint": "^8.0.1",
     "pitchfinder": "^2.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -22,6 +21,7 @@
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
+    "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.25.2",
