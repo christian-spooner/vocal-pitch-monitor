@@ -7,6 +7,11 @@ import autoCorrelate from '../utils/autoCorrelate';
 function App() {
     let [freq, useFreq] = useState(0);
     let [analyser, useAnalyser] = useState(null);
+    let [showWinamp, useShowWinamp] = useState(false);
+
+    function checkWinamp(event) {
+        useShowWinamp(event.target.checked);
+    }
 
     function record() {
         var source;
@@ -101,11 +106,22 @@ function App() {
 
     return (
         <div className="flex flex-col">
-            <button className="py-1" onClick={record}>
-                <span className="hover:text-red-600">START</span>
-            </button>
-            <div className="py-1 font-bold">{freq}</div>
-            <WinampGraph analyser={analyser} />
+            <div className="flex flex-col">
+                <button className="py-1" onClick={record}>
+                    <span className="hover:text-red-600">START</span>
+                </button>
+                <div className="py-1 font-bold">{freq}</div>
+                <label className="mx-2 text-xs py-1">
+                    <input
+                        type="checkbox"
+                        checked={showWinamp}
+                        onChange={checkWinamp}
+                        className="mr-2"
+                    />
+                    frequency spectrum
+                </label>
+            </div>
+            {showWinamp && <WinampGraph analyser={analyser} />}
             <PitchGraph frequency={freq} />
         </div>
     );

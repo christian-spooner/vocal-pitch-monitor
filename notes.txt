@@ -1,9 +1,11 @@
 TODO:
 Remove button, automatic context creation
 Y axis touch
-Freq bar chart
 Height slider
+Range selector
+BPM mode
 Pitch detection algos
+Frequency labels for winamp
 Polyphony
 Midi player
 Refactoring
