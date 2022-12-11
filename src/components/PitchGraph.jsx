@@ -9,7 +9,7 @@ const PitchGraph = ({ frequency }) => {
     const width = 1200 - margin.left - margin.right;
     const minFreq = noteFrequencyTable[0][1];
     const maxFreq = noteFrequencyTable[noteFrequencyTable.length - 1][1];
-    const minTime = -4;
+    const minTime = -4.5;
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
     const [data, setData] = useState([]);
