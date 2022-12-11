@@ -14,7 +14,7 @@ function Spectrum({ analyser }) {
         var drawAlt = function () {
             // eslint-disable-next-line no-unused-vars
             var drawVisual = requestAnimationFrame(drawAlt);
-            canvasContext.fillStyle = 'rgb(0, 0, 0)';
+            canvasContext.fillStyle = '#130606';
             canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
         };
 
@@ -34,7 +34,7 @@ function Spectrum({ analyser }) {
             var drawVisual = requestAnimationFrame(drawAlt);
             // eslint-disable-next-line react/prop-types
             analyser.getByteFrequencyData(dataArrayAlt);
-            canvasContext.fillStyle = 'rgb(0, 0, 0)';
+            canvasContext.fillStyle = '#130606';
             canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
 
             var barWidth = (WIDTH / bufferLengthAlt) * 2.5;
