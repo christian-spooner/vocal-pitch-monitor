@@ -1,8 +1,8 @@
-import './App.css';
-import React, { useState } from 'react';
-import PitchGraph from './PitchGraph';
-import Spectrum from './Spectrum';
-import autoCorrelate from '../utils/autoCorrelate';
+import "./App.css";
+import React, { useState } from "react";
+import PitchGraph from "./PitchGraph";
+import Spectrum from "./Spectrum";
+import autoCorrelate from "../utils/autoCorrelate";
 
 function App() {
     let [freq, useFreq] = useState(0);
@@ -19,7 +19,7 @@ function App() {
         smoothingThreshold
     ) {
         // Check threshold for number, or just difference for notes.
-        if (typeof valueToDisplay == 'number') {
+        if (typeof valueToDisplay == "number") {
             return (
                 Math.abs(valueToDisplay - previousValueToDisplay) <
                 smoothingThreshold
@@ -90,7 +90,7 @@ function App() {
 
         if (!navigator?.mediaDevices?.getUserMedia) {
             // No audio allowed
-            alert('Sorry, getUserMedia is required for the app.');
+            alert("Sorry, getUserMedia is required for the app.");
             return;
         } else {
             var constraints = { audio: true };
@@ -105,7 +105,7 @@ function App() {
                 .catch(function (err) {
                     console.log(err);
                     alert(
-                        'Sorry, microphone permissions are required for the app'
+                        "Sorry, microphone permissions are required for the app"
                     );
                 });
         }

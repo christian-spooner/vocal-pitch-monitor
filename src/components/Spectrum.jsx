@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
 function Spectrum({ analyser }) {
@@ -8,12 +8,12 @@ function Spectrum({ analyser }) {
 
     function drawBlank() {
         var canvas = canvasRef.current;
-        var canvasContext = canvas.getContext('2d');
+        var canvasContext = canvas.getContext("2d");
         canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
 
         var drawAlt = function () {
             requestAnimationFrame(drawAlt);
-            canvasContext.fillStyle = '#130606';
+            canvasContext.fillStyle = "#130606";
             canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
         };
 
@@ -22,7 +22,7 @@ function Spectrum({ analyser }) {
 
     function draw() {
         var canvas = canvasRef.current;
-        var canvasContext = canvas.getContext('2d');
+        var canvasContext = canvas.getContext("2d");
         // eslint-disable-next-line react/prop-types
         var bufferLengthAlt = analyser.frequencyBinCount;
         var dataArrayAlt = new Uint8Array(bufferLengthAlt);
@@ -32,7 +32,7 @@ function Spectrum({ analyser }) {
             requestAnimationFrame(drawAlt);
             // eslint-disable-next-line react/prop-types
             analyser.getByteFrequencyData(dataArrayAlt);
-            canvasContext.fillStyle = '#130606';
+            canvasContext.fillStyle = "#130606";
             canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
 
             var barWidth = (WIDTH / bufferLengthAlt) * 2.5;
@@ -43,7 +43,7 @@ function Spectrum({ analyser }) {
                 barHeight = dataArrayAlt[i];
 
                 canvasContext.fillStyle =
-                    'rgb(' + (barHeight + 100) + ',50,50)';
+                    "rgb(" + (barHeight + 100) + ",50,50)";
                 canvasContext.fillRect(
                     x,
                     HEIGHT - barHeight / 2,

@@ -63,10 +63,9 @@ function autoCorrelate(buffer, sampleRate) {
 
     var T0 = maxIndex;
 
-    // Not as sure about this part, don't @ me
     // From the original author:
     // interpolation is parabolic interpolation. It helps with precision. We suppose that a parabola pass through the
-    // three points that comprise the peak. 'a' and 'b' are the unknowns from the linear equation system and b/(2a) is
+    // three points that comprise the peak. "a" and "b" are the unknowns from the linear equation system and b/(2a) is
     // the "error" in the abscissa. Well x1,x2,x3 should be y1,y2,y3 because they are the ordinates.
     var x1 = c[T0 - 1];
     var x2 = c[T0];

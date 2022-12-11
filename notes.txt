@@ -1,14 +1,11 @@
 TODO:
-Remove button, automatic context creation
-Y axis touch
 Height slider
 Range selector
-BPM mode
-Pitch detection algos
-Frequency labels for Spectrum
-Disconnect lines
 Smoothing
-Polyphony
+Disconnect lines
+Frequency labels for Spectrum
+Automatic context creation
+Pitch detection algos
+BPM mode
 Midi player
-Refactoring
 Testing

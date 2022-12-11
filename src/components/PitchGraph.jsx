@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import noteFrequencyTable from '../utils/noteFrequencyTable';
-import * as d3 from 'd3';
+import React, { useEffect, useState } from "react";
+import noteFrequencyTable from "../utils/noteFrequencyTable";
+import * as d3 from "d3";
 
 // eslint-disable-next-line react/prop-types
 const PitchGraph = ({ frequency }) => {
@@ -9,7 +9,7 @@ const PitchGraph = ({ frequency }) => {
     const width = 1200 - margin.left - margin.right;
     const minFreq = noteFrequencyTable[0][1];
     const maxFreq = noteFrequencyTable[noteFrequencyTable.length - 1][1];
-    const minTime = -4.5;
+    const minTime = -5;
     const noteFrequencyMap = new Map(noteFrequencyTable);
     const frequencies = Array.from(noteFrequencyMap.values());
     const [data, setData] = useState([]);
@@ -45,36 +45,36 @@ const PitchGraph = ({ frequency }) => {
     };
 
     const drawGraph = () => {
-        d3.select('g').remove(); // remove previous graphs
+        d3.select("g").remove(); // remove previous graphs
 
         const svg = d3
-            .select('.graph')
-            .attr('height', height + margin.top + margin.bottom)
-            .attr('width', width + margin.left + margin.right);
+            .select(".graph")
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width + margin.left + margin.right);
 
         const g = svg
-            .append('g')
-            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+            .append("g")
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         // add horizontal lines across the chart that alternate in opacity for each tick of the y-axis
-        g.selectAll('.horizontal-lines')
+        g.selectAll(".horizontal-lines")
             .data(frequencies)
             .enter()
-            .append('line')
-            .attr('x1', 0)
-            .attr('x2', width)
-            .attr('y1', (frequency) => yScaleRight(frequency))
-            .attr('y2', (frequency) => yScaleRight(frequency))
-            .style('stroke', '#ccc')
-            .style('opacity', (frequency, i) => (i % 2 === 0 ? 0.2 : 0.6));
+            .append("line")
+            .attr("x1", 0)
+            .attr("x2", width)
+            .attr("y1", (frequency) => yScaleRight(frequency))
+            .attr("y2", (frequency) => yScaleRight(frequency))
+            .style("stroke", "#ccc")
+            .style("opacity", (frequency, i) => (i % 2 === 0 ? 0.2 : 0.6));
 
-        g.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', `translate(0, ${height})`)
-            .call(d3.axisBottom(xScale).tickSize(0).tickFormat(''));
+        g.append("g")
+            .attr("class", "x axis")
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(xScale).tickSize(0).tickFormat(""));
 
-        g.append('g')
-            .attr('class', 'y axis')
+        g.append("g")
+            .attr("class", "y axis")
             .call(
                 d3
                     .axisLeft(yScale)
@@ -88,9 +88,9 @@ const PitchGraph = ({ frequency }) => {
                     })
             );
 
-        g.append('g')
-            .attr('class', 'y axis right')
-            .attr('transform', `translate(${width}, 0)`)
+        g.append("g")
+            .attr("class", "y axis right")
+            .attr("transform", `translate(${width}, 0)`)
             .call(
                 d3
                     .axisRight(yScaleRight)
@@ -104,12 +104,12 @@ const PitchGraph = ({ frequency }) => {
                     })
             );
 
-        g.append('path')
+        g.append("path")
             .datum(data)
-            .attr('class', 'line')
-            .attr('d', line)
-            .attr('fill', 'none')
-            .attr('stroke', 'green');
+            .attr("class", "line")
+            .attr("d", line)
+            .attr("fill", "none")
+            .attr("stroke", "green");
     };
 
     useEffect(() => {
