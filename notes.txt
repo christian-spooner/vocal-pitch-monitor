@@ -8,6 +8,7 @@ Investigate smoothing
 Colouring
 Pitch detection algos
 Frequency labels for Spectrum
+Disconnect lines
 Polyphony
 Midi player
 Refactoring

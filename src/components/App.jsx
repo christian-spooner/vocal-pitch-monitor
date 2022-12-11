@@ -13,17 +13,21 @@ function App() {
         useShowSpectrum(event.target.checked);
     }
 
-	function noteIsSimilarEnough(valueToDisplay, previousValueToDisplay, smoothingThreshold) {
-		// Check threshold for number, or just difference for notes.
-		if (typeof valueToDisplay == 'number') {
-			return (
-				Math.abs(valueToDisplay - previousValueToDisplay) <
-				smoothingThreshold
-			);
-		} else {
-			return valueToDisplay === previousValueToDisplay;
-		}
-	}
+    function noteIsSimilarEnough(
+        valueToDisplay,
+        previousValueToDisplay,
+        smoothingThreshold
+    ) {
+        // Check threshold for number, or just difference for notes.
+        if (typeof valueToDisplay == 'number') {
+            return (
+                Math.abs(valueToDisplay - previousValueToDisplay) <
+                smoothingThreshold
+            );
+        } else {
+            return valueToDisplay === previousValueToDisplay;
+        }
+    }
 
     function visualize(analyser, audioContext) {
         var previousValueToDisplay = 0;
@@ -49,7 +53,13 @@ function App() {
             }
 
             // Check if this value has been within the given range for n iterations
-            if (noteIsSimilarEnough(valueToDisplay, previousValueToDisplay, smoothingThreshold)) {
+            if (
+                noteIsSimilarEnough(
+                    valueToDisplay,
+                    previousValueToDisplay,
+                    smoothingThreshold
+                )
+            ) {
                 if (smoothingCount < smoothingCountThreshold) {
                     smoothingCount++;
                     return;
@@ -105,7 +115,7 @@ function App() {
         <div className="flex flex-col">
             <div className="flex flex-col">
                 <button className="py-1" onClick={record}>
-                    <span className="hover:text-red-600">START</span>
+                    <span className="hover:text-red-600">start</span>
                 </button>
                 <div className="py-1 font-bold">{freq}</div>
                 <label className="mx-2 text-xs py-1">
