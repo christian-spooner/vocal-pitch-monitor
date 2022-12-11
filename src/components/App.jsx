@@ -7,10 +7,10 @@ import autoCorrelate from '../utils/autoCorrelate';
 function App() {
     let [freq, useFreq] = useState(0);
     let [analyserProp, useAnalyserProp] = useState(null);
-    let [showWinamp, useShowWinamp] = useState(false);
+    let [showSpectrum, useShowSpectrum] = useState(false);
 
-    function checkWinamp(event) {
-        useShowWinamp(event.target.checked);
+    function checkSpectrum(event) {
+        useShowSpectrum(event.target.checked);
     }
 
 	function visualize(analyser, audioContext) {
@@ -116,14 +116,14 @@ function App() {
                 <label className="mx-2 text-xs py-1">
                     <input
                         type="checkbox"
-                        checked={showWinamp}
-                        onChange={checkWinamp}
+                        checked={showSpectrum}
+                        onChange={checkSpectrum}
                         className="mr-2"
                     />
                     frequency spectrum
                 </label>
             </div>
-            {showWinamp && <Spectrum analyser={analyserProp} />}
+            {showSpectrum && <Spectrum analyser={analyserProp} />}
             <PitchGraph frequency={freq} />
         </div>
     );

@@ -6,7 +6,7 @@ Range selector
 BPM mode
 Colouring
 Pitch detection algos
-Frequency labels for winamp
+Frequency labels for Spectrum
 Polyphony
 Midi player
 Refactoring
