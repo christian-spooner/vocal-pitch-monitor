@@ -33,7 +33,7 @@ function App() {
         var previousValueToDisplay = 0;
         var smoothingCount = 0;
         var smoothingThreshold = 10;
-        var smoothingCountThreshold = 1;
+        var smoothingCountThreshold = 0;
 
         function draw() {
             requestAnimationFrame(draw);
