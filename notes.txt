@@ -4,6 +4,7 @@ Y axis touch
 Height slider
 Range selector
 BPM mode
+Colouring
 Pitch detection algos
 Frequency labels for winamp
 Polyphony

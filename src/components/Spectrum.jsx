@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 
-function WinampGraph({ analyser }) {
+// eslint-disable-next-line react/prop-types
+function Spectrum({ analyser }) {
     const canvasRef = React.createRef();
+    const WIDTH = 720;
+    const HEIGHT = 96;
 
     function drawBlank() {
         var canvas = canvasRef.current;
         var canvasContext = canvas.getContext('2d');
-        var WIDTH;
-        var HEIGHT;
-        WIDTH = canvas.width;
-        HEIGHT = canvas.height;
-        canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
-        var drawVisual;
-
         canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
 
         var drawAlt = function () {
-            drawVisual = requestAnimationFrame(drawAlt);
-
+            // eslint-disable-next-line no-unused-vars
+            var drawVisual = requestAnimationFrame(drawAlt);
             canvasContext.fillStyle = 'rgb(0, 0, 0)';
             canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
         };
@@ -26,25 +22,18 @@ function WinampGraph({ analyser }) {
     }
 
     function draw() {
-        //console.log('drawing');
         var canvas = canvasRef.current;
         var canvasContext = canvas.getContext('2d');
-        var WIDTH;
-        var HEIGHT;
-        WIDTH = canvas.width;
-        HEIGHT = canvas.height;
-        canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
-        var drawVisual;
+        // eslint-disable-next-line react/prop-types
         var bufferLengthAlt = analyser.frequencyBinCount;
         var dataArrayAlt = new Uint8Array(bufferLengthAlt);
-
         canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
 
         var drawAlt = function () {
-            drawVisual = requestAnimationFrame(drawAlt);
-
+            // eslint-disable-next-line no-unused-vars
+            var drawVisual = requestAnimationFrame(drawAlt);
+            // eslint-disable-next-line react/prop-types
             analyser.getByteFrequencyData(dataArrayAlt);
-
             canvasContext.fillStyle = 'rgb(0, 0, 0)';
             canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -71,7 +60,6 @@ function WinampGraph({ analyser }) {
         drawAlt();
     }
 
-    // Create a context from the canvas element when the component mounts
     useEffect(() => {
         if (!analyser) {
             drawBlank();
@@ -80,7 +68,7 @@ function WinampGraph({ analyser }) {
         }
     }, [analyser]);
 
-    return <canvas ref={canvasRef} width={640} height={120} />;
+    return <canvas ref={canvasRef} width={WIDTH} height={HEIGHT} />;
 }
 
-export default WinampGraph;
+export default Spectrum;

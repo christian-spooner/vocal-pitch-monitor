@@ -1,7 +1,7 @@
 import './App.css';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PitchGraph from './PitchGraph';
-import WinampGraph from './WinampGraph';
+import Spectrum from './Spectrum';
 import autoCorrelate from '../utils/autoCorrelate';
 
 function App() {
@@ -121,7 +121,7 @@ function App() {
                     frequency spectrum
                 </label>
             </div>
-            {showWinamp && <WinampGraph analyser={analyser} />}
+            {showWinamp && <Spectrum analyser={analyser} />}
             <PitchGraph frequency={freq} />
         </div>
     );
