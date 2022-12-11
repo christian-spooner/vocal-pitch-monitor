@@ -13,11 +13,23 @@ function App() {
         useShowSpectrum(event.target.checked);
     }
 
+	function noteIsSimilarEnough(valueToDisplay, previousValueToDisplay, smoothingThreshold) {
+		// Check threshold for number, or just difference for notes.
+		if (typeof valueToDisplay == 'number') {
+			return (
+				Math.abs(valueToDisplay - previousValueToDisplay) <
+				smoothingThreshold
+			);
+		} else {
+			return valueToDisplay === previousValueToDisplay;
+		}
+	}
+
     function visualize(analyser, audioContext) {
         var previousValueToDisplay = 0;
         var smoothingCount = 0;
-        var smoothingThreshold = 5;
-        var smoothingCountThreshold = 5;
+        var smoothingThreshold = 10;
+        var smoothingCountThreshold = 1;
 
         function draw() {
             requestAnimationFrame(draw);
@@ -36,23 +48,8 @@ function App() {
                 return -1;
             }
 
-            smoothingThreshold = 10;
-            smoothingCountThreshold = 5;
-
-            function noteIsSimilarEnough() {
-                // Check threshold for number, or just difference for notes.
-                if (typeof valueToDisplay == 'number') {
-                    return (
-                        Math.abs(valueToDisplay - previousValueToDisplay) <
-                        smoothingThreshold
-                    );
-                } else {
-                    return valueToDisplay === previousValueToDisplay;
-                }
-            }
-
             // Check if this value has been within the given range for n iterations
-            if (noteIsSimilarEnough()) {
+            if (noteIsSimilarEnough(valueToDisplay, previousValueToDisplay, smoothingThreshold)) {
                 if (smoothingCount < smoothingCountThreshold) {
                     smoothingCount++;
                     return;
