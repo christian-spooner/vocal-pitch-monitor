@@ -81,7 +81,8 @@ function App() {
 
 	function record() {
 		var source;
-		var audioContext = new window.AudioContext();
+		var audioContext = new (window.AudioContext ||
+			window.webkitAudioContext)();
 		var analyser = audioContext.createAnalyser();
 
 		analyser.minDecibels = -100;
@@ -90,10 +91,11 @@ function App() {
 
 		if (!navigator?.mediaDevices?.getUserMedia) {
 			// No audio allowed
+			console.log(navigator)
 			alert("Sorry, getUserMedia is required for the app.");
 			return;
 		} else {
-			var constraints = { audio: true };
+			var constraints = { audio: true };	
 			navigator.mediaDevices
 				.getUserMedia(constraints)
 				.then(function (stream) {
@@ -112,7 +114,7 @@ function App() {
 	}
 
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col text-white">
 			<div className="flex flex-col pb-2">
 				<button className="py-1" onClick={record}>
 					<span className="hover:text-red-600">start</span>
