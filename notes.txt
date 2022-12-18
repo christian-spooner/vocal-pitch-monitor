@@ -7,5 +7,6 @@ Frequency labels for Spectrum
 Automatic context creation
 Pitch detection algos
 BPM mode
+Vite build/edit dockerfile
 Midi player
 Testing
