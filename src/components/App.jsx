@@ -91,11 +91,11 @@ function App() {
 
 		if (!navigator?.mediaDevices?.getUserMedia) {
 			// No audio allowed
-			console.log(navigator)
+			console.log(navigator);
 			alert("Sorry, getUserMedia is required for the app.");
 			return;
 		} else {
-			var constraints = { audio: true };	
+			var constraints = { audio: true };
 			navigator.mediaDevices
 				.getUserMedia(constraints)
 				.then(function (stream) {
