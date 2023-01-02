@@ -10,8 +10,7 @@ const PitchGraph = ({ frequency, spacing }) => {
 		height_abs = 1200;
 	} else if (spacing === "medium") {
 		height_abs = 1800;
-	}
-	else {
+	} else {
 		height_abs = 2400;
 	}
 	const height = height_abs - margin.top - margin.bottom;

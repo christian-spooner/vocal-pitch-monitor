@@ -116,7 +116,7 @@ function App() {
 
 	function handleSpacingChange(event) {
 		useSpacing(event.target.value);
-	  }
+	}
 
 	return (
 		<div className="flex flex-col text-white">
