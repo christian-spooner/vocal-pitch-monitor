@@ -3,7 +3,7 @@ import noteFrequencyTable from "../utils/noteFrequencyTable";
 import * as d3 from "d3";
 
 // eslint-disable-next-line react/prop-types
-const PitchGraph = ({ frequency, spacing }) => {
+const PitchGraph = ({ frequency, spacing, range }) => {
 	const margin = { top: 20, right: 50, bottom: 30, left: 50 };
 	var height_abs;
 	if (spacing === "small") {
@@ -15,10 +15,18 @@ const PitchGraph = ({ frequency, spacing }) => {
 	}
 	const height = height_abs - margin.top - margin.bottom;
 	const width = 1200 - margin.left - margin.right;
-	const minFreq = noteFrequencyTable[0][1];
-	const maxFreq = noteFrequencyTable[noteFrequencyTable.length - 1][1];
+
+	let noteFrequencyTableRange;
+	if (range === "low") {
+		noteFrequencyTableRange = noteFrequencyTable.slice(0, 36);
+	} else {
+		noteFrequencyTableRange = noteFrequencyTable.slice(12, 48);
+	}
+	const minFreq = noteFrequencyTableRange[0][1];
+	const maxFreq =
+		noteFrequencyTableRange[noteFrequencyTableRange.length - 1][1];
 	const minTime = -5;
-	const noteFrequencyMap = new Map(noteFrequencyTable);
+	const noteFrequencyMap = new Map(noteFrequencyTableRange);
 	const frequencies = Array.from(noteFrequencyMap.values());
 	const [data, setData] = useState([]);
 
@@ -88,9 +96,13 @@ const PitchGraph = ({ frequency, spacing }) => {
 					.axisLeft(yScale)
 					.tickValues(frequencies)
 					.tickFormat((d) => {
-						for (let i = 0; i < noteFrequencyTable.length; i++) {
-							if (noteFrequencyTable[i][1] === d) {
-								return noteFrequencyTable[i][1];
+						for (
+							let i = 0;
+							i < noteFrequencyTableRange.length;
+							i++
+						) {
+							if (noteFrequencyTableRange[i][1] === d) {
+								return noteFrequencyTableRange[i][1];
 							}
 						}
 					})
@@ -104,9 +116,13 @@ const PitchGraph = ({ frequency, spacing }) => {
 					.axisRight(yScaleRight)
 					.tickValues(frequencies)
 					.tickFormat((d) => {
-						for (let i = 0; i < noteFrequencyTable.length; i++) {
-							if (noteFrequencyTable[i][1] === d) {
-								return noteFrequencyTable[i][0];
+						for (
+							let i = 0;
+							i < noteFrequencyTableRange.length;
+							i++
+						) {
+							if (noteFrequencyTableRange[i][1] === d) {
+								return noteFrequencyTableRange[i][0];
 							}
 						}
 					})
@@ -123,7 +139,7 @@ const PitchGraph = ({ frequency, spacing }) => {
 	useEffect(() => {
 		updateData();
 		drawGraph();
-	}, [frequency, spacing]);
+	}, [frequency, spacing, range]);
 
 	return <svg className="graph mx-auto"></svg>;
 };

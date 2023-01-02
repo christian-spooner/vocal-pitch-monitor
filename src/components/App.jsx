@@ -9,7 +9,7 @@ function App() {
 	let [analyserProp, useAnalyserProp] = useState(null);
 	let [showSpectrum, useShowSpectrum] = useState(false);
 	let [spacing, useSpacing] = useState("small");
-	let [range, useRange] = useState("mid");
+	let [range, useRange] = useState("low");
 
 	function checkSpectrum(event) {
 		useShowSpectrum(event.target.checked);
@@ -160,7 +160,6 @@ function App() {
 						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
 					>
 						<option value="low">low</option>
-						<option value="mid">mid</option>
 						<option value="high">high</option>
 					</select>
 					<label htmlFor="spacing-select" className="mr-4">
@@ -169,7 +168,7 @@ function App() {
 				</div>
 			</div>
 			{showSpectrum && <Spectrum analyser={analyserProp} />}
-			<PitchGraph frequency={freq} spacing={spacing} />
+			<PitchGraph frequency={freq} spacing={spacing} range={range} />
 		</div>
 	);
 }
