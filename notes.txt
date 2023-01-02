@@ -1,11 +1,11 @@
 TODO:
-Range selector
 Smoothing
 Disconnect lines
 Frequency labels for Spectrum
 Automatic context creation
 Pitch detection algos
 BPM mode
+Extend options
 Mobile
 Vite build/edit dockerfile
 Midi player
