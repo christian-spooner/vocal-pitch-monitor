@@ -3,7 +3,7 @@ import noteFrequencyTable from "../utils/noteFrequencyTable";
 import * as d3 from "d3";
 
 // eslint-disable-next-line react/prop-types
-const PitchGraph = ({ frequency, spacing, range }) => {
+const PitchGraph = ({ frequency, spacing, range, accidentals }) => {
 	const margin = { top: 20, right: 50, bottom: 30, left: 50 };
 	var height_abs;
 	if (spacing === "small") {
@@ -122,6 +122,23 @@ const PitchGraph = ({ frequency, spacing, range }) => {
 							i++
 						) {
 							if (noteFrequencyTableRange[i][1] === d) {
+								if (
+									noteFrequencyTableRange[i][0].length > 2 &&
+									accidentals == "sharp"
+								) {
+									return noteFrequencyTableRange[i][0].slice(
+										0,
+										2
+									);
+								} else if (
+									noteFrequencyTableRange[i][0].length > 2 &&
+									accidentals == "flat"
+								) {
+									return noteFrequencyTableRange[i][0].slice(
+										4,
+										6
+									);
+								}
 								return noteFrequencyTableRange[i][0];
 							}
 						}
@@ -139,7 +156,7 @@ const PitchGraph = ({ frequency, spacing, range }) => {
 	useEffect(() => {
 		updateData();
 		drawGraph();
-	}, [frequency, spacing, range]);
+	}, [frequency, spacing, range, accidentals]);
 
 	return <svg className="graph mx-auto"></svg>;
 };
