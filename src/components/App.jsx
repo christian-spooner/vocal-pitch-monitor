@@ -9,6 +9,7 @@ function App() {
 	let [analyserProp, useAnalyserProp] = useState(null);
 	let [showSpectrum, useShowSpectrum] = useState(false);
 	let [spacing, useSpacing] = useState("small");
+	let [range, useRange] = useState("mid");
 
 	function checkSpectrum(event) {
 		useShowSpectrum(event.target.checked);
@@ -118,14 +119,18 @@ function App() {
 		useSpacing(event.target.value);
 	}
 
+	function handleRangeChange(event) {
+		useRange(event.target.value);
+	}
+
 	return (
 		<div className="flex flex-col text-white">
 			<div className="flex flex-col pb-2">
 				<button className="py-1" onClick={record}>
 					<span className="hover:text-red-600">start</span>
 				</button>
-				<div className="py-1 font-bold">{freq}</div>
-				<div className="text-xs py-1">
+				<div className="py-2 font-bold">{freq}</div>
+				<div className="text-xs py-2">
 					<label className="mx-4">
 						<input
 							type="checkbox"
@@ -145,7 +150,22 @@ function App() {
 						<option value="medium">medium</option>
 						<option value="large">large</option>
 					</select>
-					<label htmlFor="spacing-select">spacing</label>
+					<label htmlFor="spacing-select" className="mr-4">
+						spacing
+					</label>
+					<select
+						id="range-select"
+						value={range}
+						onChange={handleRangeChange}
+						className="mr-2 ml-4 border rounded-sm bg-slate-800"
+					>
+						<option value="low">low</option>
+						<option value="mid">mid</option>
+						<option value="high">high</option>
+					</select>
+					<label htmlFor="spacing-select" className="mr-4">
+						range
+					</label>
 				</div>
 			</div>
 			{showSpectrum && <Spectrum analyser={analyserProp} />}
