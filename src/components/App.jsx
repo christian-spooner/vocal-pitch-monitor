@@ -8,6 +8,7 @@ function App() {
 	let [freq, useFreq] = useState(0);
 	let [analyserProp, useAnalyserProp] = useState(null);
 	let [showSpectrum, useShowSpectrum] = useState(false);
+	let [spacing, useSpacing] = useState(0);
 
 	function checkSpectrum(event) {
 		useShowSpectrum(event.target.checked);
@@ -113,6 +114,10 @@ function App() {
 		}
 	}
 
+	function handleSpacingChange(event) {
+		useSpacing(event.target.value);
+	  }
+
 	return (
 		<div className="flex flex-col text-white">
 			<div className="flex flex-col pb-2">
@@ -120,15 +125,28 @@ function App() {
 					<span className="hover:text-red-600">start</span>
 				</button>
 				<div className="py-1 font-bold">{freq}</div>
-				<label className="mx-2 text-xs py-1">
-					<input
-						type="checkbox"
-						checked={showSpectrum}
-						onChange={checkSpectrum}
-						className="mr-2"
-					/>
-					frequency spectrum
-				</label>
+				<div className="text-xs py-1">
+					<label className="mx-4">
+						<input
+							type="checkbox"
+							checked={showSpectrum}
+							onChange={checkSpectrum}
+							className="mr-2"
+						/>
+						frequency spectrum
+					</label>
+					<select
+						id="spacing-select"
+						value={spacing}
+						onChange={handleSpacingChange}
+						className="mr-2 ml-4 border rounded-sm bg-slate-800"
+					>
+						<option value="small">small</option>
+						<option value="medium">medium</option>
+						<option value="large">large</option>
+					</select>
+					<label htmlFor="spacing-select">spacing</label>
+				</div>
 			</div>
 			{showSpectrum && <Spectrum analyser={analyserProp} />}
 			<PitchGraph frequency={freq} />
