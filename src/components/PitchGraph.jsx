@@ -3,9 +3,18 @@ import noteFrequencyTable from "../utils/noteFrequencyTable";
 import * as d3 from "d3";
 
 // eslint-disable-next-line react/prop-types
-const PitchGraph = ({ frequency }) => {
+const PitchGraph = ({ frequency, spacing }) => {
 	const margin = { top: 20, right: 50, bottom: 30, left: 50 };
-	const height = 1200 - margin.top - margin.bottom;
+	var height_abs;
+	if (spacing === "small") {
+		height_abs = 1200;
+	} else if (spacing === "medium") {
+		height_abs = 1800;
+	}
+	else {
+		height_abs = 2400;
+	}
+	const height = height_abs - margin.top - margin.bottom;
 	const width = 1200 - margin.left - margin.right;
 	const minFreq = noteFrequencyTable[0][1];
 	const maxFreq = noteFrequencyTable[noteFrequencyTable.length - 1][1];
@@ -115,7 +124,7 @@ const PitchGraph = ({ frequency }) => {
 	useEffect(() => {
 		updateData();
 		drawGraph();
-	}, [frequency]);
+	}, [frequency, spacing]);
 
 	return <svg className="graph mx-auto"></svg>;
 };

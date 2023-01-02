@@ -8,7 +8,7 @@ function App() {
 	let [freq, useFreq] = useState(0);
 	let [analyserProp, useAnalyserProp] = useState(null);
 	let [showSpectrum, useShowSpectrum] = useState(false);
-	let [spacing, useSpacing] = useState(0);
+	let [spacing, useSpacing] = useState("small");
 
 	function checkSpectrum(event) {
 		useShowSpectrum(event.target.checked);
@@ -149,7 +149,7 @@ function App() {
 				</div>
 			</div>
 			{showSpectrum && <Spectrum analyser={analyserProp} />}
-			<PitchGraph frequency={freq} />
+			<PitchGraph frequency={freq} spacing={spacing} />
 		</div>
 	);
 }
