@@ -144,7 +144,7 @@ function App() {
 						id="spacing-select"
 						value={spacing}
 						onChange={handleSpacingChange}
-						className="mr-2 ml-4 border rounded-sm bg-slate-800"
+						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
 					>
 						<option value="small">small</option>
 						<option value="medium">medium</option>
@@ -157,7 +157,7 @@ function App() {
 						id="range-select"
 						value={range}
 						onChange={handleRangeChange}
-						className="mr-2 ml-4 border rounded-sm bg-slate-800"
+						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
 					>
 						<option value="low">low</option>
 						<option value="mid">mid</option>
