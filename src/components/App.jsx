@@ -10,6 +10,7 @@ function App() {
 	let [showSpectrum, useShowSpectrum] = useState(false);
 	let [spacing, useSpacing] = useState("small");
 	let [range, useRange] = useState("low");
+	let [accidentals, useAccidentals] = useState("sharp");
 
 	function checkSpectrum(event) {
 		useShowSpectrum(event.target.checked);
@@ -123,6 +124,10 @@ function App() {
 		useRange(event.target.value);
 	}
 
+	function handleAccidentalsChange(event) {
+		useAccidentals(event.target.value);
+	}
+
 	return (
 		<div className="flex flex-col text-white">
 			<div className="flex flex-col pb-2">
@@ -165,10 +170,28 @@ function App() {
 					<label htmlFor="spacing-select" className="mr-4">
 						range
 					</label>
+					<select
+						id="accidentals-select"
+						value={accidentals}
+						onChange={handleAccidentalsChange}
+						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
+					>
+						<option value="sharp">#</option>
+						<option value="flat">b</option>
+						<option value="both">#/b</option>
+					</select>
+					<label htmlFor="accidentals-select" className="mr-4">
+						accidentals
+					</label>
 				</div>
 			</div>
 			{showSpectrum && <Spectrum analyser={analyserProp} />}
-			<PitchGraph frequency={freq} spacing={spacing} range={range} />
+			<PitchGraph
+				frequency={freq}
+				spacing={spacing}
+				range={range}
+				accidentals={accidentals}
+			/>
 		</div>
 	);
 }
