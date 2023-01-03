@@ -137,52 +137,52 @@ function App() {
 				<div className="py-2 font-bold">{freq}</div>
 				<div className="text-xs py-2">
 					<label className="mx-4">
+						frequency spectrum
 						<input
 							type="checkbox"
 							checked={showSpectrum}
 							onChange={checkSpectrum}
-							className="mr-2"
+							className="ml-2"
 						/>
-						frequency spectrum
+					</label>
+					<label htmlFor="spacing-select" className="ml-4">
+						spacing
 					</label>
 					<select
 						id="spacing-select"
 						value={spacing}
 						onChange={handleSpacingChange}
-						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
+						className="ml-2 mr-4 border rounded-sm bg-slate-800 border-slate-600"
 					>
 						<option value="small">small</option>
 						<option value="medium">medium</option>
 						<option value="large">large</option>
 					</select>
-					<label htmlFor="spacing-select" className="mr-4">
-						spacing
+					<label htmlFor="spacing-select" className="ml-4">
+						range
 					</label>
 					<select
 						id="range-select"
 						value={range}
 						onChange={handleRangeChange}
-						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
+						className="ml-2 mr-4 border rounded-sm bg-slate-800 border-slate-600"
 					>
 						<option value="low">low</option>
 						<option value="high">high</option>
 					</select>
-					<label htmlFor="spacing-select" className="mr-4">
-						range
+					<label htmlFor="accidentals-select" className="ml-4">
+						accidentals
 					</label>
 					<select
 						id="accidentals-select"
 						value={accidentals}
 						onChange={handleAccidentalsChange}
-						className="mr-2 ml-4 border rounded-sm bg-slate-800 border-slate-600"
+						className="ml-2 mr-4 border rounded-sm bg-slate-800 border-slate-600"
 					>
 						<option value="sharp">#</option>
 						<option value="flat">b</option>
 						<option value="both">#/b</option>
 					</select>
-					<label htmlFor="accidentals-select" className="mr-4">
-						accidentals
-					</label>
 				</div>
 			</div>
 			{showSpectrum && <Spectrum analyser={analyserProp} />}
