@@ -83,15 +83,33 @@ function App() {
 	}
 
 	function record() {
-		var source;
-		var audioContext = new (window.AudioContext ||
-			window.webkitAudioContext)();
-		var analyser = audioContext.createAnalyser();
+		// Declare the media stream and microphone variables
+		let source = null;
+		let mediaStream = null;
+		let microphone = null;
 
-		analyser.minDecibels = -100;
-		analyser.maxDecibels = -10;
-		analyser.smoothingTimeConstant = 0.85;
+		// Define a function to start the microphone
+		function startMicrophone() {
+			// Check if the media stream is active
+			if (mediaStream && !microphone) {
+				// Get the audio track from the media stream
+				const audioTrack = mediaStream.getAudioTracks()[0];
+				// Create a new media stream with just the audio track
+				microphone = new MediaStream([audioTrack]);
+			}
+		}
 
+		// Define a function to stop the microphone
+		function stopMicrophone() {
+			// Check if the microphone is active
+			if (microphone) {
+				// Stop the microphone
+				microphone.getAudioTracks().forEach((track) => track.stop());
+				microphone = null;
+			}
+		}
+
+		// Check if getUserMedia is supported
 		if (!navigator?.mediaDevices?.getUserMedia) {
 			// No audio allowed
 			console.log(navigator);
@@ -101,13 +119,30 @@ function App() {
 			var constraints = { audio: true };
 			navigator.mediaDevices
 				.getUserMedia(constraints)
-				.then(function (stream) {
-					source = audioContext.createMediaStreamSource(stream);
+				.then((stream) => {
+					// Set the media stream
+					mediaStream = stream;
+					// Start the microphone when the app is in focus
+					window.addEventListener("focus", startMicrophone);
+					// Stop the microphone when the app is not in focus
+					window.addEventListener("blur", stopMicrophone);
+					// Start the microphone
+					startMicrophone();
+					// Create the audio context and analyser
+					var audioContext = new (window.AudioContext ||
+						window.webkitAudioContext)();
+					var analyser = audioContext.createAnalyser();
+					// Set the analyser properties
+					analyser.minDecibels = -100;
+					analyser.maxDecibels = -10;
+					analyser.smoothingTimeConstant = 0.85;
+					// Connect the source to the analyser
+					source = audioContext.createMediaStreamSource(microphone);
 					source.connect(analyser);
 					useAnalyserProp(analyser);
 					visualize(analyser, audioContext);
 				})
-				.catch(function (err) {
+				.catch((err) => {
 					console.log(err);
 					alert(
 						"Sorry, microphone permissions are required for the app"
