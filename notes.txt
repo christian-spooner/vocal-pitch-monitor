@@ -3,14 +3,12 @@
 ################################################################################
 
 Smoothing
+Fix https
 Disconnect lines
-Disable mic when app not in use
 Frequency labels for Spectrum
 Automatic context creation
 Pitch detection algos
 BPM mode
 Extend options
 Mobile friendly/offline
-Vite build/edit dockerfile
 Midi player
-Testing
