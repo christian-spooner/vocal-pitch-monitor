@@ -128,7 +128,7 @@ const PitchGraph = ({ frequency, spacing, range, accidentals }) => {
 								) {
 									return noteFrequencyTableRange[i][0].slice(
 										0,
-										2
+										3
 									);
 								} else if (
 									noteFrequencyTableRange[i][0].length > 2 &&
@@ -136,7 +136,7 @@ const PitchGraph = ({ frequency, spacing, range, accidentals }) => {
 								) {
 									return noteFrequencyTableRange[i][0].slice(
 										4,
-										6
+										7
 									);
 								}
 								return noteFrequencyTableRange[i][0];
